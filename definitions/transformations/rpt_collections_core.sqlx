@@ -1,0 +1,23 @@
+config {
+    type: "table",
+    database: "springer-nature-analytics",
+    schema: "new_rpt_Collections_KPI_master",
+    name: "rpt_collections_core",
+    description: ""
+}
+
+Select distinct * 
+          ,coalesce(internal_collection_id) as fir_collection_id
+        ,coalesce(collection_title) as fir_collection_title
+
+          from
+          (
+        Select distinct *, count(*) over(partition by internal_submission_id,collection_title,internal_collection_id,doi) ct5
+        ,row_number() over(partition by internal_submission_id,collection_title,internal_collection_id,doi
+          order by internal_submission_id,collection_title,internal_collection_id,doi) row_d1
+        FROM
+        ${ref("rpt_collections")}
+        where collection_title is not null or internal_collection_id is not null
+        order by ct5 desc, internal_submission_id
+        )
+        where row_d1 <2

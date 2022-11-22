@@ -1,6 +1,6 @@
 config {
     type: "declaration",
-    database: "springer-nature-analytics",
+    database: "datasn-submissions-55677263",
     schema: "prod_collections_reporting",
     name: "rpt_collections",
     description: ""

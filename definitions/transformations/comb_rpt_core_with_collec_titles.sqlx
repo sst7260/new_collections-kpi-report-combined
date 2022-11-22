@@ -1,0 +1,48 @@
+config {
+    type: "table",
+    database: "springer-nature-analytics",
+    schema: "new_rpt_Collections_KPI_master",
+    name: "comb_rpt_core_with_collec_titles",
+    description: ""
+}
+
+
+
+SELECT distinct * 
+          FROM
+          (
+          Select fd.*, count(*) over(partition by internal_submission_id,doi,all_coll_title,all_coll_id,all_journal_id) as ct8
+          , row_number() over(partition by internal_submission_id,doi,all_coll_title,all_coll_id,all_journal_id 
+           order by internal_submission_id desc,doi desc,all_coll_title desc,all_coll_id desc,all_journal_id desc, all_startDate desc) row_d2 ,
+
+          
+
+
+          FROM(
+          Select a.*,b.plainTextTitle as bpt,c.plainTextTitle as cpt,b.id as bid,c.id as cid,
+            Coalesce(b.plainTextTitle,c.plainTextTitle,a.fir_collection_title) as all_coll_title,
+            Coalesce(a.fir_collection_id,b.id,c.id) as all_coll_id,
+
+            Coalesce(b.startDate,c.startDate) as all_startDate,
+            Coalesce(b.endDate,c.endDate) as all_endDate,
+
+            Coalesce(b.status,c.status) as all_coll_status,
+
+            Coalesce(CAST(a.journal_id as INT64),b.jid,c.jid) as all_journal_id, 
+
+            b.jid as b_jid,
+            c.jid as c_jid,
+
+
+            FROM  ${ref("rpt_collections_core")} as a
+            full outer join (Select * From ${ref("collections")} left join unnest(journalIds) jid) as b
+            On a.fir_collection_title = b.plainTextTitle  and cast(a.journal_id as int64) = b.jid
+
+            full outer join (Select * From ${ref("collections")} left join unnest(journalIds) as jid) as c
+            On a.fir_collection_id = c.id  and cast(a.journal_id as int64) = c.jid
+          ) fd
+
+            
+          order by ct8 desc 
+          )
+          where  (row_d2 <2 or row_d2 is null )
