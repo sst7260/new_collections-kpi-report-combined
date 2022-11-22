@@ -1,0 +1,7 @@
+config {
+    type: "declaration",
+    database: "usage-data-reporting",
+    schema: "PROD_IFM_Usage_C5",
+    name: "vw_mat_daily_api",
+    description: ""
+}

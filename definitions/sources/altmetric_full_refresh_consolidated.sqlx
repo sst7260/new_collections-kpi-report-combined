@@ -1,0 +1,7 @@
+config {
+    type:"declaration",
+    database: "springer-nature-analytics",
+    schema: "core_datasets_eu",
+    name: "altmetric_full_refresh_consolidated",
+    description: ""
+}

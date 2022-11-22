@@ -1,0 +1,7 @@
+config {
+    type: "declaration",
+    database: "bi-production-239213",
+    schema: "MD_Products_IFM",
+    name: "tbl_Journals",
+    description: ""
+}

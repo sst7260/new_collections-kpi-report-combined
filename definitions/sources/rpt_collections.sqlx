@@ -1,0 +1,7 @@
+config {
+    type: "declaration",
+    database: "springer-nature-analytics",
+    schema: "prod_collections_reporting",
+    name: "rpt_collections",
+    description: ""
+}

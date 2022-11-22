@@ -1,0 +1,7 @@
+config {
+    type: "declaration",
+    database: "dimensions-ai",
+    schema: "data_analytics_eu",
+    name: "publications",
+    description: ""
+}
