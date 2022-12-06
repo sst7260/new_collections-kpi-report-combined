@@ -1,0 +1,26 @@
+config {
+    type: "table",
+    database: "springer-nature-analytics",
+    schema: "new_rpt_Collections_KPI_master",
+    name: "daily_usage_data_api",
+    tags: "ct_6",
+    description: ""
+}
+
+
+SELECT 
+            ITEM_DOI as usage_doi, 
+            SUM(Clicks) article_downloads, 
+            Row_number() over(
+              Partition by ITEM_DOI 
+              order by 
+                ITEM_DOI
+            ) row_usage 
+          From 
+            ${ref("vw_mat_daily_api")}
+          where 
+            ITEM_DOI is not null and Access_YN='Y'
+          group by 
+            1 
+
+

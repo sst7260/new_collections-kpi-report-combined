@@ -1,0 +1,50 @@
+config {
+    type: "table",
+    database: "springer-nature-analytics",
+    schema: "new_rpt_Collections_KPI_master",
+    name: "pub_usage_rpt_table",
+    tags: "ct_7",
+    description: ""
+}
+
+
+
+SELECT distinct * 
+        FROM (
+          Select distinct *,
+          count(*) over(partition by nullif(internal_submission_id,main_doi),filter_coll_title,filter_coll_id,filter_journal_id /*,altm_date*/) as count_3_transf
+        ,row_number() over(partition by nullif(internal_submission_id,main_doi),filter_coll_title,filter_coll_id,filter_journal_id /*,altm_date*/ order by internal_submission_id desc,main_doi desc,filter_coll_title desc,filter_coll_id desc,filter_journal_id desc,filter_journal_title desc,title_publication desc /*,altm_date desc*/) row_d3
+
+        ,row_number() over(partition by main_doi order by internal_submission_id desc,main_doi desc,title_publication desc,filter_coll_title desc,filter_coll_id desc,filter_journal_id desc,filter_journal_title desc, CT_startDate desc /*,altm_date desc*/) row_doi_pub
+
+          FROM (
+        
+            SELECT cbt.*, dfc.*  --, altm.* except (altm_doi)
+            ,duda.article_downloads
+
+              -- ,COALESCE(cbt.all_coll_doi,dfc.dim_doi) as main_doi
+              --,COALESCE(cbt.)
+              ,COALESCE(cbt.main_collection_id) filter_coll_id
+              ,COALESCE(cbt.main_collection_title) filter_coll_title
+              ,COALESCE(cbt.main_collection_title,cbt.main_collection_id) filter_coll_comb
+              ,COALESCE(cbt.JournalTitle,dfc.dim_journal_title) filter_journal_title
+              ,COALESCE(cbt.all_journal_id,cast(dfc.dim_journal_id as int64)) filter_journal_id
+              ,COALESCE(cbt.JournalTitle,dfc.dim_journal_title,CAST(cbt.all_journal_id as string),dfc.dim_journal_id) filter_journal_comb
+
+              ,COALESCE(cbt.main_pub_date,dfc.date_normal) as fin_pub_date
+              ,EXTRACT (YEAR from COALESCE(cbt.main_pub_date,dfc.date_normal)) as fin_pub_year
+
+              ,Case When internal_submission_id is null then 'post publication' else 'submission driven' end as publication_type
+
+            --,row_number() over(partition by dim_doi,title_publication order by corresponding desc) as row_dim_auth
+
+            From ${ref("cleaned_transf_rpt_with_coll")} cbt
+            Left JOIN ${ref("dimenstions_for_collections_pub")} as dfc
+            ON TRIM(lower(cbt.main_doi)) = TRIM(lower(dfc.dim_doi))
+            -- Left Join altmetrics_consolidated as altm
+            -- ON TRIM(lower(cbt.main_doi)) = TRIM(lower(altm.altm_doi))  
+            left join ${ref("daily_usage_data_api")} as duda 
+            On TRIM(lower(cbt.main_doi)) = TRIM(lower(duda.usage_doi))
+            )
+            order by count_3_transf desc
+          )
