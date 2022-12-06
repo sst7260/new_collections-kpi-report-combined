@@ -6,7 +6,7 @@
       "schedules": [
         {
           "name": "dev_new_schedule",
-          "cron": "55 15 * * mon,tue,wed,thu,fri,sat,sun",
+          "cron": "5 16 * * mon,tue,wed,thu,fri,sat,sun",
           "tags": [
             "ct_1",
             "ct_2"
@@ -14,6 +14,16 @@
         }
       ],
       "gitRef": "master"
+    }
+  ],
+  "notificationChannels": [
+    {
+      "name": "new_notification_channel",
+      "email": {
+        "to": [
+          "shreyas.shetty@springernature.com"
+        ]
+      }
     }
   ]
 }
