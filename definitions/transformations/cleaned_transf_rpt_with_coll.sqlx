@@ -1,0 +1,52 @@
+config {
+    type: "table",
+    database: "springer-nature-analytics",
+    schema: "new_rpt_Collections_KPI_master",
+    name: "cleaned_transf_rpt_with_coll",
+    description: ""
+}
+
+
+SELECT distinct * 
+        FROM (
+          Select distinct bjt.*,
+          count(*) over(partition by main_doi,internal_submission_id,main_collection_title,main_collection_id,main_journal_id /*,main_collection_id,main_journal_id,JournalTitle*/) as count_2_5
+            , row_number() over(partition by main_doi,internal_submission_id ,main_collection_title,main_collection_id,main_journal_id  order by internal_submission_id desc,main_doi desc ,main_collection_title desc,main_collection_id desc ,main_journal_id desc,JournalTitle desc, CT_startDate desc) row_d_2_5 ,
+
+
+          tblj.JournalTitle,
+          tblj.JournalReportingKey, 
+          tblj.JournalStatus, 
+          tblj.JournalBusinessModel, 
+          tblj.JournalPDDesc, 
+          tblj.JournalPSDesc, 
+          tblj.JournalPUDesc,
+
+          FROM (
+            Select  distinct crcc.* ,cct1.merg_coll_id,cct1.merg_coll_title ,--,cct2.merg_coll_id,cct2.merg_coll_title, --cct1.merg_coll_doi as merg_coll_doi_1,cct2.merg_coll_doi as merg_coll_doi_2,
+            COALESCE(crcc.all_coll_title,cct1.merg_coll_title) as main_collection_title,
+            COALESCE(crcc.all_coll_id,cct1.merg_coll_id) as main_collection_id,
+            COALESCE(crcc.doi,cct1.merg_coll_doi) as main_doi,
+            COALESCE(CAST(crcc.publication_date as DATE)) as main_pub_date,
+
+            COALESCE(cct1.merg_journal_id,all_journal_id) as main_journal_id,
+
+            COALESCE(all_startDate,merg_startDate) as CT_startDate ,
+          COALESCE(all_endDate,merg_endDate) as CT_endDate,          
+
+            From ${ref("comb_rpt_core_with_collec_titles")} as crcc
+            FULL OUTER JOIN 
+            ${ref("combined_cleaned_tranf_pub_collections")} as cct1
+              On (crcc.doi = cct1.merg_coll_doi and crcc.all_coll_title = cct1.merg_coll_title and cast(crcc.all_journal_id as int64) =cct1.merg_journal_id
+              )
+            -- FULL OUTER JOIN 
+            -- combined_cleaned_tranf_pub_collections as cct2
+            --   On (crcc.doi = cct2.merg_coll_doi and crcc.all_coll_id = cct2.merg_coll_id and cast(crcc.all_journal_id as int64) =cct2.merg_journal_id)
+            ) bjt
+
+          left join ${ref("tbl_Journals")} tblj
+          On main_journal_id = tblj.JournalKey  
+          
+          order by count_2_5 desc, internal_submission_id desc,row_d_2_5
+          )  
+          where row_d_2_5 <2

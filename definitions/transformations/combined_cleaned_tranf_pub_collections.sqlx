@@ -1,0 +1,69 @@
+config {
+    type: "table",
+    database: "springer-nature-analytics",
+    schema: "new_rpt_Collections_KPI_master",
+    name: "combined_cleaned_tranf_pub_collections",
+    description: ""
+}
+
+
+with articles_collections_api AS (
+            SELECT 
+              coll_api_doi, 
+              -- cast(null as DATE) as cpc_publication_date, 
+              id , 
+              plainTextTitle, 
+              jid
+              -- 'coll_api' as d_source --,journals,journalIds
+              ,startDate as coll_startDate
+              ,endDate as coll_endDate 
+
+            FROM 
+              ${ref("collections")} left join unnest (journalIds) as jid
+              left join unnest(articles) coll_api_doi 
+            -- where coll_api_doi is not null
+          )
+        
+        , coll_pub_doi as (
+          Select 
+            DOI as cp_DOI, 
+            -- cast(null as DATE) as Publication_Date, 
+            Cast(null as string) id, 
+            Published_ArticleCollectionTitle, 
+            null as jid,
+            -- 'DDS' as d_source,
+            CAST(null as DATE) as str_dt,
+            CAST(null as DATE) as end_dt
+        
+          from ${ref("COLLECTIONS_PUBLISHED")}
+          )
+        
+--  Select distinct * From articles_collections_api where id='hdiiafcicd' and coll_api_doi is not null
+
+        , merg_doi_of_coll as (
+          SELECT 
+          COALESCE(acp.coll_api_doi,cpd.cp_DOI) as merg_coll_doi,
+          -- ,acp.id as id1, cpd.id as id2,acp.plainTextTitle, cpd.Published_ArticleCollectionTitle,acp.coll_api_doi,cpd.cp_DOI,
+          --COALESCE(cpd.Publication_Date,acp.cpc_publication_date) as merg_doi_pub_date,
+          acp.id as merg_coll_id ,
+          COALESCE(acp.plainTextTitle,cpd.Published_ArticleCollectionTitle) as merg_coll_title,
+          COALESCE(acp.jid,cpd.jid) as merg_journal_id,
+          -- startDate,
+          -- endDate,
+          COALESCE(coll_startDate,str_dt) as merg_startDate ,
+          COALESCE(coll_endDate,end_dt) as merg_endDate,
+          
+          From articles_collections_api acp
+          full outer join coll_pub_doi cpd
+          On (acp.plainTextTitle = cpd.Published_ArticleCollectionTitle and acp.coll_api_doi = cpd.cp_DOI and acp.id=cpd.id)
+          )
+        
+          SELECt *
+          FROM (
+            Select * , count(*) over (partition by merg_coll_doi,merg_coll_title,merg_coll_id,merg_journal_id) as ct_coll_doi,
+            row_number() over (partition by merg_coll_doi,merg_coll_title,merg_coll_id 
+              order by merg_coll_doi desc,merg_coll_title desc ,merg_coll_id desc,merg_journal_id desc) row_coll_doi
+            FROM merg_doi_of_coll
+            order by ct_coll_doi desc,merg_coll_title,merg_coll_doi,row_coll_doi desc
+          ) 
+            where row_coll_doi <2

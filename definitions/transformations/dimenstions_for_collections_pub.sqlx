@@ -1,0 +1,34 @@
+config {
+    type: "table",
+    database: "springer-nature-analytics",
+    schema: "new_rpt_Collections_KPI_master",
+    name: "dimenstions_for_collections_pub",
+    tags: "ct_5",
+    description: ""
+}
+
+
+Select 
+            doi as dim_doi, 
+            --year, 
+            publisher.name, 
+            -- CONCAT(
+            --   edi.first_name.preferred, edi.last_name.preferred
+            -- ) as editor_name, 
+            type as publn_type,
+            -- catg.name as categ_name, 
+            title.preferred as title_publication, 
+            date_normal,
+            -- EXTRACT(YEAR from date_normal) as year_date_normal ,
+            citations_count, 
+            substr(journal.id, 6) as dim_journal_id, 
+            journal.title as dim_journal_title, 
+            -- CONCAT(auth.first_name, auth.last_name) as author_name, 
+            -- auth.corresponding, 
+            -- auth.researcher_id,
+            altmetrics.score as altmetric_score_rounded, 
+
+        
+
+          from 
+            ${ref("publications")}
