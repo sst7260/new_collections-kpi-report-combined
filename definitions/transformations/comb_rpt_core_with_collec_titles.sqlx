@@ -1,7 +1,7 @@
 config {
     type: "table",
-    database: "springer-nature-analytics",
-    schema: "new_rpt_Collections_KPI_master",
+    /*database: "springer-nature-analytics",
+    schema: "new_rpt_Collections_KPI_master", */
     name: "comb_rpt_core_with_collec_titles",
     tags: "ct_2",
     description: ""

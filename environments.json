@@ -1,18 +1,25 @@
 {
   "environments": [
     {
-      "name": "production",
-      "configOverride": {},
+      "name": "dev_environment",
+      "configOverride": {
+        "defaultSchema": "sandbox_ckr",
+        "schemaSuffix": "dev",
+        "defaultDatabase": "springer-nature-analytics"
+      },
       "schedules": [
         {
           "name": "dev_new_schedule",
           "cron": "15 16 * * mon,tue,wed,thu,fri,sat,sun",
           "tags": [
-            "ct_1",
             "ct_2"
           ]
         }
       ],
+      "gitRef": "master"
+    },
+    {
+      "name": "production",
       "gitRef": "master"
     }
   ],
