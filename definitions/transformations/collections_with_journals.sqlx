@@ -3,7 +3,7 @@ config {
     database: "springer-nature-analytics",
     schema: "new_rpt_Collections_KPI_master",
     name: "collections_with_journals",
-    tags: "",
+    tags: "ct_2",
     description: ""
 }
 
