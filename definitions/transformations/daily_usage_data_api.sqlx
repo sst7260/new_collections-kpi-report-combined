@@ -1,8 +1,10 @@
 config {
     type: "table",
+    /*
     database: "springer-nature-analytics",
     schema: "new_rpt_Collections_KPI_master",
     name: "daily_usage_data_api",
+    */
     tags: "ct_weekly_7",
     description: ""
 }

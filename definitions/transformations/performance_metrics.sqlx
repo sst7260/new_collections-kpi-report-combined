@@ -1,8 +1,10 @@
 config {
     type: "table",
+    /*
     database: "springer-nature-analytics",
     schema: "new_rpt_Collections_KPI_master",
     name: "performance_metrics",
+    */
     tags: "ct_9",
     description: ""
 }
