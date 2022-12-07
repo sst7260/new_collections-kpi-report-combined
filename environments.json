@@ -3,7 +3,7 @@
     {
       "name": "dev_environment",
       "configOverride": {
-        "defaultSchema": "sandbox_ckr",
+        "defaultSchema": "new_rpt_Collections_KPI",
         "schemaSuffix": "DEV",
         "defaultDatabase": "springer-nature-analytics"
       },
