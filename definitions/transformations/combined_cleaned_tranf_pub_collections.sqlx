@@ -20,7 +20,7 @@ with articles_collections_api AS (
               ,endDate as coll_endDate 
 
             FROM 
-              ${ref("collections")} left join unnest (journalIds) as jid
+              ${ref("collections_with_journals")}
               left join unnest(articles) coll_api_doi 
             -- where coll_api_doi is not null
           )

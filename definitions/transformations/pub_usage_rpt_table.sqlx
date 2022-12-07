@@ -15,7 +15,7 @@ SELECT distinct *
           count(*) over(partition by nullif(internal_submission_id,main_doi),filter_coll_title,filter_coll_id,filter_journal_id /*,altm_date*/) as count_3_transf
         ,row_number() over(partition by nullif(internal_submission_id,main_doi),filter_coll_title,filter_coll_id,filter_journal_id /*,altm_date*/ order by internal_submission_id desc,main_doi desc,filter_coll_title desc,filter_coll_id desc,filter_journal_id desc,filter_journal_title desc,title_publication desc /*,altm_date desc*/) row_d3
 
-        ,row_number() over(partition by main_doi order by internal_submission_id desc,main_doi desc,title_publication desc,filter_coll_title desc,filter_coll_id desc,filter_journal_id desc,filter_journal_title desc, CT_startDate desc /*,altm_date desc*/) row_doi_pub
+        ,row_number() over(partition by main_doi,filter_coll_comb,filter_journal_comb order by internal_submission_id desc,main_doi desc,title_publication desc,filter_coll_title desc,filter_coll_id desc,filter_journal_id desc,filter_journal_title desc, CT_startDate desc /*,altm_date desc*/) row_doi_pub
 
           FROM (
         

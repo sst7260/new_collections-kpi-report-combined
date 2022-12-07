@@ -36,10 +36,10 @@ SELECT distinct *
 
 
             FROM  ${ref("rpt_collections_core")} as a
-            full outer join (Select * From ${ref("collections")} left join unnest(journalIds) jid) as b
+            full outer join ${ref("collections_with_journals")} as b
             On a.fir_collection_title = b.plainTextTitle  and cast(a.journal_id as int64) = b.jid
 
-            full outer join (Select * From ${ref("collections")} left join unnest(journalIds) as jid) as c
+            full outer join ${ref("collections_with_journals")} as c
             On a.fir_collection_id = c.id  and cast(a.journal_id as int64) = c.jid
           ) fd
 
