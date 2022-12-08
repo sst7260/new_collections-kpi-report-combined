@@ -10,6 +10,12 @@ config {
 }
 
 
+with dds_extract_artchp as (
+    SELECT DOI,COALESCE(lic.Type,'Closed') as lic_type 
+    FROM ${ref("v_artchp")} left join unnest(Licenses) lic
+)
+
+
  Select distinct purt.* ,mpc.* except(fin_pub_year) ,
       -- Case When altmetric_score_rounded >= avg_1yr_altmetric Then 'Higher' When altmetric_score_rounded < avg_1yr_altmetric Then 'Lower' else 'NA' end as avg_1_yr_altmetric_performance,
 
@@ -25,9 +31,15 @@ config {
 
       -- , row_number() over(partition by main_doi,author_name,researcher_id order by corresponding desc) as row_dim_auth
 
-      Case When count(distinct filter_journal_id) over(partition by filter_coll_comb) >1 then 'yes' else 'no' end as multi_journal_collections
+      Case When count(distinct filter_journal_id) over(partition by filter_coll_comb) >1 then 'yes' else 'no' end as multi_journal_collections,
 
+  COALESCE(lic_type,'Unknown') as Subscription_type 
 
       From ${ref("pub_usage_rpt_table")} as purt
       LEFT JOIN ${ref("performance_metrics")} as mpc
       On purt.fin_pub_year= mpc.fin_pub_year
+
+      LEFT JOIN dds_extract_artchp as dea
+      On purt.main_doi= dea.DOI
+
+

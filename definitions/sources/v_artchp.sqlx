@@ -1,0 +1,7 @@
+config {
+    type: "declaration",
+    database: "snproject52c6e272",
+    schema: "dds_extract_raw",
+    name: "v_artchp",
+    description: ""
+}
