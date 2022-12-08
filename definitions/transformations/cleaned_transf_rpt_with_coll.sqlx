@@ -39,7 +39,7 @@ SELECT distinct *
 
             From ${ref("comb_rpt_core_with_collec_titles")} as crcc
             FULL OUTER JOIN 
-            ${ref("combined_cleaned_tranf_pub_collections")} as cct1
+            ${ref("dds_collectionstool_published_articles")} as cct1
               On (crcc.doi = cct1.merg_coll_doi and crcc.all_coll_title = cct1.merg_coll_title and cast(crcc.all_journal_id as int64) =cct1.merg_journal_id
               )
             -- FULL OUTER JOIN 
