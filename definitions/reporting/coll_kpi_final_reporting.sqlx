@@ -36,7 +36,7 @@ with dds_extract_artchp as (
   COALESCE(lic_type,'Unknown') as Subscription_type 
 
       From ${ref("pub_usage_rpt_table")} as purt
-      LEFT JOIN ${ref("performance_metrics")} as mpc
+      LEFT JOIN ${ref("year_wise_performance_metrics")} as mpc
       On purt.fin_pub_year= mpc.fin_pub_year
 
       LEFT JOIN dds_extract_artchp as dea

@@ -1,0 +1,37 @@
+config {
+    type: "table",
+    /*
+    database: "springer-nature-analytics",
+    schema: "new_rpt_Collections_KPI_master",
+    name: "performance_metrics",
+    */
+    tags: "ct_9",
+    description: ""
+}
+
+
+
+SELECT
+  fin_pub_year,
+  avg_1yr_altmetric,
+  AVG(avg_1yr_altmetric) OVER(ORDER BY fin_pub_year DESC) AS running_altmetric_avg,
+  avg_1yr_citations,
+  AVG(avg_1yr_citations) OVER(ORDER BY fin_pub_year DESC) AS running_citations_avg,
+  avg_1yr_downloads,
+  AVG(avg_1yr_downloads) OVER(ORDER BY fin_pub_year DESC) AS running_downloads_avg
+FROM (
+  SELECT
+    fin_pub_year,
+    AVG(altmetric_score_rounded) avg_1yr_altmetric,
+    AVG(citations_count) avg_1yr_citations,
+    AVG(article_downloads) avg_1yr_downloads
+  FROM
+    ${ref("pub_usage_rpt_table")}
+  WHERE
+    fin_pub_year IS NOT NULL
+  GROUP BY
+    1
+  ORDER BY
+    1 DESC )
+ORDER BY
+  fin_pub_year desc
