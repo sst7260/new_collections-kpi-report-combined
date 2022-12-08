@@ -12,7 +12,8 @@
           "name": "dev_new_schedule",
           "cron": "15 16 * * mon,tue,wed,thu,fri,sat,sun",
           "tags": [
-            "ct_9"
+            "ct_9",
+            "ct_10"
           ]
         },
         {
