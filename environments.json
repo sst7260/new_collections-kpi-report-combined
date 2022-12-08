@@ -17,7 +17,6 @@
             "ct_3",
             "ct_4",
             "ct_5",
-            "ct_6",
             "ct_8",
             "ct_9",
             "ct_10"
@@ -27,6 +26,7 @@
           "name": "dev_usage_schedule",
           "cron": "45 12 * * sun",
           "tags": [
+            "ct_weekly_6",
             "ct_weekly_7"
           ]
         }

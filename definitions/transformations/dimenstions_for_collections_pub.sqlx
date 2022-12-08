@@ -5,7 +5,7 @@ config {
     schema: "new_rpt_Collections_KPI_master",
     name: "dimenstions_for_collections_pub",
     */
-    tags: "ct_6",
+    tags: "ct_weekly_6",
     description: ""
 }
 
