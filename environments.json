@@ -7,6 +7,16 @@
         "schemaSuffix": "DEV",
         "defaultDatabase": "springer-nature-analytics"
       },
+      "schedules": [
+        {
+          "name": "prod_daily_schedule",
+          "cron": "30 15 * * *"
+        },
+        {
+          "name": "prod_weekly_schedule",
+          "cron": "31 15 * * *"
+        }
+      ],
       "gitRef": "master"
     },
     {
