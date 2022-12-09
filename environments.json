@@ -14,7 +14,7 @@
         },
         {
           "name": "prod_weekly_schedule",
-          "cron": "31 15 * * *"
+          "cron": "45 9 * * sun"
         }
       ],
       "gitRef": "master"
@@ -25,6 +25,12 @@
         "defaultSchema": "new_rpt_Collections_KPI_master",
         "defaultDatabase": "springer-nature-analytics"
       },
+      "schedules": [
+        {
+          "name": "new_schedule",
+          "cron": "33 15 * * *"
+        }
+      ],
       "gitRef": "8e8599ce1295174399027884c7a83abca8c0e5ab"
     }
   ],
