@@ -8,7 +8,7 @@ config {
     tags: "ct_5",
     description: ""
 }
--- hjhjmmm
+
 
 SELECT distinct * 
         FROM (
