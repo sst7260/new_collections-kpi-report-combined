@@ -64,6 +64,14 @@
               ]
             }
           ]
+        },
+        {
+          "name": "main_prod_weekly",
+          "cron": "49 8 * * sun",
+          "tags": [
+            "ct_weekly_6",
+            "ct_weekly_7"
+          ]
         }
       ],
       "gitRef": "master"
