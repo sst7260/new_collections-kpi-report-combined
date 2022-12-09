@@ -1,7 +1,7 @@
 {
   "environments": [
     {
-      "name": "dev_environment",
+      "name": "production",
       "configOverride": {
         "defaultSchema": "new_rpt_Collections_KPI",
         "schemaSuffix": "DEV",
@@ -35,7 +35,7 @@
       "gitRef": "master"
     },
     {
-      "name": "dev_en",
+      "name": "dev_env",
       "configOverride": {
         "defaultSchema": "new_rpt_Collections_KPI_master",
         "defaultDatabase": "springer-nature-analytics"
