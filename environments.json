@@ -7,31 +7,6 @@
         "schemaSuffix": "DEV",
         "defaultDatabase": "springer-nature-analytics"
       },
-      "schedules": [
-        {
-          "name": "dev_new_schedule",
-          "cron": "15 16 * * mon,tue,wed,thu,fri,sat,sun",
-          "tags": [
-            "ct_1",
-            "ct_2",
-            "ct_3",
-            "ct_4",
-            "ct_5",
-            "ct_8",
-            "ct_9",
-            "ct_9.5",
-            "ct_10"
-          ]
-        },
-        {
-          "name": "dev_usage_schedule",
-          "cron": "45 12 * * sun",
-          "tags": [
-            "ct_weekly_6",
-            "ct_weekly_7"
-          ]
-        }
-      ],
       "gitRef": "master"
     },
     {
@@ -40,40 +15,6 @@
         "defaultSchema": "new_rpt_Collections_KPI_master",
         "defaultDatabase": "springer-nature-analytics"
       },
-      "schedules": [
-        {
-          "name": "main_prod_daily",
-          "cron": "54 6 * * mon,tue,wed,thu,fri,sat,sun",
-          "tags": [
-            "ct_1",
-            "ct_2",
-            "ct_3",
-            "ct_4",
-            "ct_5",
-            "ct_8",
-            "ct_9",
-            "ct_9.5",
-            "ct_10"
-          ],
-          "notify": [
-            {
-              "channel": "new_notification_channel",
-              "statuses": [
-                "SUCCESS",
-                "FAILURE"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "main_prod_weekly",
-          "cron": "49 8 * * sun",
-          "tags": [
-            "ct_weekly_6",
-            "ct_weekly_7"
-          ]
-        }
-      ],
       "gitRef": "8e8599ce1295174399027884c7a83abca8c0e5ab"
     }
   ],
