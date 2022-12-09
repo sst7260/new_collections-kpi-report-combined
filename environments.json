@@ -17,7 +17,7 @@
           "cron": "45 9 * * sun"
         }
       ],
-      "gitRef": "8e8599ce1295174399027884c7a83abca8c0e5ab"
+      "gitRef": "ca081f6c72256501cca6f5341f88cf4bdc6a2bd2"
     },
     {
       "name": "dev_env",
