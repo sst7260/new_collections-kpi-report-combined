@@ -27,8 +27,12 @@
       },
       "schedules": [
         {
-          "name": "new_schedule",
-          "cron": "33 15 * * *"
+          "name": "dev_daily_schedule",
+          "cron": "5 10 * * mon,tue,wed,thu,fri,sat,sun"
+        },
+        {
+          "name": "dev_weekly_schedule",
+          "cron": "50 9 * * sun"
         }
       ],
       "gitRef": "8e8599ce1295174399027884c7a83abca8c0e5ab"
