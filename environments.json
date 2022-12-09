@@ -10,11 +10,26 @@
       "schedules": [
         {
           "name": "prod_daily_schedule",
-          "cron": "30 15 * * *"
+          "cron": "30 15 * * *",
+          "tags": [
+            "ct_1",
+            "ct_2",
+            "ct_3",
+            "ct_4",
+            "ct_5",
+            "ct_8",
+            "ct_9",
+            "ct_9.5",
+            "ct_10"
+          ]
         },
         {
           "name": "prod_weekly_schedule",
-          "cron": "45 9 * * sun"
+          "cron": "45 9 * * sun",
+          "tags": [
+            "ct_weekly_6",
+            "ct_weekly_7"
+          ]
         }
       ],
       "gitRef": "ca081f6c72256501cca6f5341f88cf4bdc6a2bd2"
@@ -29,11 +44,26 @@
       "schedules": [
         {
           "name": "dev_daily_schedule",
-          "cron": "5 10 * * mon,tue,wed,thu,fri,sat,sun"
+          "cron": "5 10 * * mon,tue,wed,thu,fri,sat,sun",
+          "tags": [
+            "ct_1",
+            "ct_2",
+            "ct_3",
+            "ct_4",
+            "ct_5",
+            "ct_8",
+            "ct_9",
+            "ct_9.5",
+            "ct_10"
+          ]
         },
         {
           "name": "dev_weekly_schedule",
-          "cron": "50 9 * * sun"
+          "cron": "50 9 * * sun",
+          "tags": [
+            "ct_weekly_6",
+            "ct_weekly_7"
+          ]
         }
       ],
       "gitRef": "master"
