@@ -17,7 +17,7 @@
           "cron": "45 9 * * sun"
         }
       ],
-      "gitRef": "master"
+      "gitRef": "8e8599ce1295174399027884c7a83abca8c0e5ab"
     },
     {
       "name": "dev_env",
@@ -36,7 +36,7 @@
           "cron": "50 9 * * sun"
         }
       ],
-      "gitRef": "8e8599ce1295174399027884c7a83abca8c0e5ab"
+      "gitRef": "master"
     }
   ],
   "notificationChannels": [
