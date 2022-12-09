@@ -36,6 +36,36 @@
     },
     {
       "name": "production",
+      "configOverride": {
+        "defaultSchema": "new_rpt_Collections_KPI_master",
+        "defaultDatabase": "springer-nature-analytics"
+      },
+      "schedules": [
+        {
+          "name": "main_prod_daily",
+          "cron": "54 6 * * mon,tue,wed,thu,fri,sat,sun",
+          "tags": [
+            "ct_1",
+            "ct_2",
+            "ct_3",
+            "ct_4",
+            "ct_5",
+            "ct_8",
+            "ct_9",
+            "ct_9.5",
+            "ct_10"
+          ],
+          "notify": [
+            {
+              "channel": "new_notification_channel",
+              "statuses": [
+                "SUCCESS",
+                "FAILURE"
+              ]
+            }
+          ]
+        }
+      ],
       "gitRef": "master"
     }
   ],
