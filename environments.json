@@ -3,8 +3,8 @@
     {
       "name": "production",
       "configOverride": {
-        "defaultSchema": "new_rpt_Collections_KPI",
-        "schemaSuffix": "DEV",
+        "defaultSchema": "new_rpt_Collections_KPI_master",
+        "schemaSuffix": "",
         "defaultDatabase": "springer-nature-analytics"
       },
       "schedules": [
@@ -22,7 +22,8 @@
     {
       "name": "dev_env",
       "configOverride": {
-        "defaultSchema": "new_rpt_Collections_KPI_master",
+        "defaultSchema": "new_rpt_Collections_KPI",
+        "schemaSuffix": "DEV",
         "defaultDatabase": "springer-nature-analytics"
       },
       "schedules": [
