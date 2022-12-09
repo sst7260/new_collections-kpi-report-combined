@@ -9,6 +9,7 @@ config {
     description: ""
 }
 
+-- nn
 
 with dds_extract_artchp as (
     SELECT DOI,COALESCE(lic.Type,'Closed') as lic_type 
