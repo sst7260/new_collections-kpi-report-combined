@@ -35,7 +35,7 @@
       "gitRef": "master"
     },
     {
-      "name": "production",
+      "name": "dev_en",
       "configOverride": {
         "defaultSchema": "new_rpt_Collections_KPI_master",
         "defaultDatabase": "springer-nature-analytics"
