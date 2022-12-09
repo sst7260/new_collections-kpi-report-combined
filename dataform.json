@@ -1,6 +1,6 @@
 {
     "warehouse": "bigquery",
-    "defaultSchema": "new_rpt_Collections_KPI_master",
+    "defaultSchema": "new_rpt_Collections_KPI_DEV",
     "assertionSchema": "dataform_assertions",
     "defaultDatabase": "springer-nature-analytics"
 }

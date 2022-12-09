@@ -17,6 +17,7 @@ with dds_extract_artchp as (
 
 
  Select distinct purt.* ,mpc.* except(fin_pub_year) ,
+ jclp.* except(filter_journal_comb,filter_coll_comb,main_doi) ,
       -- Case When altmetric_score_rounded >= avg_1yr_altmetric Then 'Higher' When altmetric_score_rounded < avg_1yr_altmetric Then 'Lower' else 'NA' end as avg_1_yr_altmetric_performance,
 
       Case When altmetric_score_rounded >= running_altmetric_avg Then 'Higher' When altmetric_score_rounded < running_altmetric_avg Then 'Lower' else 'NA' end as overall_altmetric_performance,
@@ -31,7 +32,7 @@ with dds_extract_artchp as (
 
       -- , row_number() over(partition by main_doi,author_name,researcher_id order by corresponding desc) as row_dim_auth
 
-      Case When count(distinct filter_journal_id) over(partition by filter_coll_comb) >1 then 'yes' else 'no' end as multi_journal_collections,
+      Case When count(distinct purt.filter_journal_id) over(partition by purt.filter_coll_comb) >1 then 'yes' else 'no' end as multi_journal_collections,
 
   COALESCE(lic_type,'Unknown') as Subscription_type 
 
@@ -41,5 +42,8 @@ with dds_extract_artchp as (
 
       LEFT JOIN dds_extract_artchp as dea
       On purt.main_doi= dea.DOI
+
+      LEFT JOIN ${ref("jrnl_collection_level_performance")} jclp
+      ON purt.main_doi = jclp.main_doi and purt.filter_coll_comb = jclp.filter_coll_comb and purt.filter_journal_comb =jclp.filter_journal_comb
 
 

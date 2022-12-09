@@ -1,0 +1,41 @@
+config {
+    type: "table",
+    /*
+    database: "springer-nature-analytics",
+    schema: "new_rpt_Collections_KPI_master",
+    name: "performance_metrics",
+    */
+    tags: "ct_9.5",
+    description: ""
+}
+
+
+
+
+Select *, case when avg_coll_cit >= avg_jrnl_citation then 'high' else 'low' end as collection_citation_perfm,
+case when avg_article_cit >= avg_coll_cit then 'high' else 'low' end as article_citation_coll_lvl_perfm
+
+, case when avg_coll_downloads >= avg_jrnl_downloads then 'high' else 'low' end as collection_dwds_perfm,
+case when avg_article_downloads >= avg_coll_downloads then 'high' else 'low' end as article_dwds_coll_lvl_perfm
+
+, case when avg_coll_altmetric >= avg_jrnl_altmetric then 'high' else 'low' end as collection_atlmetric_perfm,
+case when avg_article_altmetric >= avg_coll_altmetric then 'high' else 'low' end as article_altmetric_coll_lvl_perfm
+
+From (
+SELECT filter_journal_comb
+, avg(citations_count) over(partition by filter_journal_comb) as avg_jrnl_citation
+, avg(article_downloads) over(partition by filter_journal_comb) as avg_jrnl_downloads
+, avg(altmetric_score_rounded) over(partition by filter_journal_comb) as avg_jrnl_altmetric
+
+,filter_coll_comb
+, avg(citations_count) over(partition by filter_coll_comb) as avg_coll_cit
+, avg(article_downloads) over(partition by filter_coll_comb) as avg_coll_downloads
+, avg(altmetric_score_rounded) over(partition by filter_coll_comb) as avg_coll_altmetric
+
+,main_doi
+, avg(citations_count) over(partition by main_doi) as avg_article_cit
+,avg(article_downloads) over(partition by main_doi) as avg_article_downloads
+,avg(altmetric_score_rounded) over(partition by main_doi) as avg_article_altmetric
+
+From ${ref("pub_usage_rpt_table")}
+)
